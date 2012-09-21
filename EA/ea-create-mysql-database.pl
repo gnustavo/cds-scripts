@@ -19,15 +19,10 @@ use CDS::Utils;
 
 # CONFIGURATION
 
-# Verificar se o script abaixo foi atualizado pela Sparx em
-# http://www.sparxsystems.com/resources/corporate/.
-# Verificado em 2012-06-06.
-my $MySQL_InnoDB_EASchema = <DATA>;
-
 # GROK COMMAND LINE
 my $usage = "$0 [--verbose] [--dbhost=host] DBNAME\n";
 my $Verbose;
-my $DBHOST = 'dbi:mysql:database=mysql;host=cristal';
+my $DBHOST = 'cristal';
 GetOptions(
     'verbose+' => \$Verbose,
     'dsn=s'    => \$DSN,
@@ -67,7 +62,7 @@ EOS
 
 warn "Run $EASQL in database $DBNAME...\n" if $Verbose;
 {
-    open my $db, '|-', "mysql -D $DBNAME -u $DBNAME --host=$DBHOST"
+    open my $db, '|-', "mysql -D $DBNAME -u $DBNAME -p'$eapass' --host=$DBHOST"
 	or die "Can't exec command mysql: $!\n";
     while (<DATA>) {
 	print $db or die;
@@ -98,6 +93,11 @@ Use the above connection string to transfer the EAP to the database.
 EOS
 
 exit 0;
+
+# Verificar se o script abaixo foi atualizado pela Sparx em
+# http://www.sparxsystems.com/resources/corporate/.
+# Verificado em 2012-06-06.
+
 
 __DATA__
 #------------------------------------------------
