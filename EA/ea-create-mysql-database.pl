@@ -25,7 +25,7 @@ my $Verbose;
 my $DBHOST = 'cristal';
 GetOptions(
     'verbose+' => \$Verbose,
-    'dsn=s'    => \$DSN,
+    'dbhost=s' => \$DBHOST,
 ) or die $usage;
 
 my $DBNAME = shift or die "$usage\nMissing DBNAME\n";
@@ -60,7 +60,7 @@ EOS
     close $db;
 }
 
-warn "Run $EASQL in database $DBNAME...\n" if $Verbose;
+warn "Run SQL in database $DBNAME...\n" if $Verbose;
 {
     open my $db, '|-', "mysql -D $DBNAME -u $DBNAME -p'$eapass' --host=$DBHOST"
 	or die "Can't exec command mysql: $!\n";
