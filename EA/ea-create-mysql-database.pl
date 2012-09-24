@@ -41,7 +41,7 @@ warn "Check if database $DBNAME doesn't exist...\n" if $Verbose;
 {
     my $db = DBI->connect($DSN, $dbuser, $dbpass,
 			  {RaiseError => 1, AutoCommit => 0, FetchHashKeyName => 'NAME_lc'})
-	or die $DBNAMEI::errstr;
+	or die $DBNAME::errstr;
     die "Database $DBNAME already exists.\n"
 	if @{$db->selectall_arrayref("select distinct db from db where db = '$DBNAME'")};
 }
