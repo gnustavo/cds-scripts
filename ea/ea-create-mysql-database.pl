@@ -92,7 +92,7 @@ Please, record and commit the following information:
   User: $DBNAME
   Password: $eapass
   Database: $DBNAME
-  Connection String: "Driver=MySQL ODBC 5.1 Driver;SERVER=eadatabase;DataBase=$DBNAME;User=$DBNAME;Password=$eapass;Option=3;"
+  Connection String: "EAConnectString:TesteEaMedusa --- DBType=0;Connect=Provider=MSDASQL.1;Persist Security Info=False;Extended Properties=\"Driver=MySQL ODBC 5.1 Driver;SERVER=eadatabase;DataBase=$DBNAME;User=$DBNAME;Password=$eapass;Option=3;\";LazyLoad=1;";
 
 Use the above connection string to transfer the EAP to the database.
 EOS
