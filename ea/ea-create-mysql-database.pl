@@ -22,7 +22,7 @@ use CDS::Utils;
 # GROK COMMAND LINE
 my $usage = "$0 [--verbose] [--dbhost=host] DBNAME\n";
 my $Verbose;
-my $DBHOST = 'cristal';
+my $DBHOST = 'localhost';
 GetOptions(
     'verbose+' => \$Verbose,
     'dbhost=s' => \$DBHOST,
@@ -36,6 +36,8 @@ my $DSN    = "dbi:mysql:database=mysql;host=$DBHOST";
 my ($dbuser, $dbpass) = get_credentials('dbuser', 'dbpass', prompt => 'MySQL admin');
 
 my $eapass = genpasswd();
+
+my $conncmd = "mysql -D $DBNAME --user=$DBNAME --password=$eapass --host=$DBHOST";
 
 warn "Check if database $DBNAME doesn't exist...\n" if $Verbose;
 {
@@ -54,7 +56,8 @@ warn "Create database and user $DBNAME...\n" if $Verbose;
 
     print $db <<"EOS" or die;
 create database $DBNAME;
-create user $DBNAME identified by '$eapass';
+create user '$DBNAME'\@'\%' identified by '$eapass';
+create user '$DBNAME'\@'localhost' identified by '$eapass';
 grant all on $DBNAME.* to $DBNAME\@'\%';
 grant all on $DBNAME.* to $DBNAME\@'localhost';
 EOS
@@ -63,7 +66,8 @@ EOS
 
 warn "Run SQL in database $DBNAME...\n" if $Verbose;
 {
-    open my $db, '|-', "mysql -D $DBNAME -u $DBNAME -p'$eapass' --host=$DBHOST"
+    warn "Connecting with: $conncmd\n"  if $Verbose;
+    open my $db, '|-', $conncmd
 	or die "Can't exec command mysql: $!\n";
     while (<DATA>) {
 	$db->print($_) or die;
@@ -73,7 +77,7 @@ warn "Run SQL in database $DBNAME...\n" if $Verbose;
 
 warn "Check number of tables created...\n" if $Verbose;
 {
-    my $n = `echo 'show tables' | mysql -u $DBNAME $DBNAME | wc -l`
+    my $n = `echo 'show tables' | $conncmd | wc -l`
 	or die "Can't run 'show tables'\n";
     chomp $n;
     warn "WARN: Database should have 99 tables but has $n!"
