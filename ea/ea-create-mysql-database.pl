@@ -39,6 +39,7 @@ my $eapass = genpasswd();
 
 warn "Check if database $DBNAME doesn't exist...\n" if $Verbose;
 {
+    no warnings;
     my $db = DBI->connect($DSN, $dbuser, $dbpass,
 			  {RaiseError => 1, AutoCommit => 0, FetchHashKeyName => 'NAME_lc'})
 	or die $db::errstr;
