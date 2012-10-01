@@ -41,7 +41,7 @@ warn "Check if database $DBNAME doesn't exist...\n" if $Verbose;
 {
     my $db = DBI->connect($DSN, $dbuser, $dbpass,
 			  {RaiseError => 1, AutoCommit => 0, FetchHashKeyName => 'NAME_lc'})
-	or die $DBNAME::errstr;
+	or die $db::errstr;
     die "Database $DBNAME already exists.\n"
 	if @{$db->selectall_arrayref("select distinct db from db where db = '$DBNAME'")};
 }
@@ -65,7 +65,7 @@ warn "Run SQL in database $DBNAME...\n" if $Verbose;
     open my $db, '|-', "mysql -D $DBNAME -u $DBNAME -p'$eapass' --host=$DBHOST"
 	or die "Can't exec command mysql: $!\n";
     while (<DATA>) {
-	print $db or die;
+	$db->print($_) or die;
     }
     close $db;
 }
