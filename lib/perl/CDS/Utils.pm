@@ -22,7 +22,7 @@ sub get_credentials {
 
     my $user = $ENV{$userenv} || prompt('x', "$opts{prompt} Username: ", $opts{userhelp}, $opts{userdefault});
     my $pass = $ENV{$passenv};
-    unless ($pass) {
+    unless (exists $ENV{passenv}) {
 	$pass = prompt('p', "$opts{prompt} Password: ", $opts{passhelp}, '');
 	print "\n";
     }
