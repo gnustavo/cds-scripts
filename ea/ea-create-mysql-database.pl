@@ -89,12 +89,15 @@ print <<EOS;
 Data transfer finished.
 Please, record and commit the following information:
 
-  User: $DBNAME
-  Password: $eapass
-  Database: $DBNAME
-  Connection String: "EAConnectString:TesteEaMedusa --- DBType=0;Connect=Provider=MSDASQL.1;Persist Security Info=False;Extended Properties=\"Driver=MySQL ODBC 5.1 Driver;SERVER=eadatabase;DataBase=$DBNAME;User=$DBNAME;Password=$eapass;Option=3;\";LazyLoad=1;";
+  User.....: $DBNAME
+  Password.: $eapass
+  Database.: $DBNAME
 
-Use the above connection string to transfer the EAP to the database.
+  EA String: EAConnectString:EA --- DBType=0;Connect=Provider=MSDASQL.1;Persist Security Info=False;Extended Properties="Driver=MySQL ODBC 5.1 Driver;SERVER=eadb;DataBase=$DBNAME;User=$DBNAME;Password=$eapass;Option=3;";LazyLoad=1;
+
+  ODBC Conn: Driver=MySQL ODBC 5.1 Driver;SERVER=eadb;DataBase=$DBNAME;User=$DBNAME;Password=$eapass;Option=3;
+
+Use the above connection string to transfer and connect the EAP to the database.
 EOS
 
 exit 0;
